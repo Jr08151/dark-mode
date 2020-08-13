@@ -1,8 +1,16 @@
-import { useLocalStorage } from './useLocalStorage';
+import { useEffect } from "react";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 
-export const useDarkMode = (key, initialValue) => {
-    const [someValue, setSomeValue] = useLocalStorage(key, initialValue)
-    const body = document.querySelector('body');
-        someValue ? body.classList.add('dark-mode'): body.classList.remove("dark-mode");
-      return [someValue, setSomeValue];
-}
+const useDarkMode = () => {
+  const [darkModeOn, setDarkModeOn] = useLocalStorage("isDarkMode", false);
+
+  useEffect(() => {
+    darkModeOn
+      ? document.querySelector("body").classList.add("dark-mode")
+      : document.querySelector("body").classList.remove("dark-mode");
+  }, [darkModeOn]);
+
+  return [darkModeOn, setDarkModeOn];
+};
+
+export default useDarkMode;
